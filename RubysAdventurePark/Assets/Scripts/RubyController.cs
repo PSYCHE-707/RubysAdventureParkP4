@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RubyController : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class RubyController : MonoBehaviour
 
     AudioSource audioSource;
 
+    public GameObject gameOver;
 
     void Start()
     {
@@ -36,7 +38,7 @@ public class RubyController : MonoBehaviour
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         audioSource = GetComponent<AudioSource>();
-
+        gameOver.SetActive(false);
     }
 
     void Update()
@@ -82,6 +84,10 @@ public class RubyController : MonoBehaviour
             }
         }
 
+        if (currentHealth < 1)
+        {
+            gameOver.SetActive(true);
+        }
     }
 
     void FixedUpdate()
@@ -110,6 +116,7 @@ public class RubyController : MonoBehaviour
 
             PlaySound(hitSound);
             animator.SetTrigger("Hit");
+
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
